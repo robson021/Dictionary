@@ -154,4 +154,9 @@ public class MainPanel extends JPanel {
         definitionList = list;
         successfulSearch = true;
     }
+    
+    void clearFields() {
+        textArea.setText(""); searchField.setText("");
+        successfulSearch = false;
+    }
 }

@@ -10,6 +10,7 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -32,11 +33,13 @@ public class EditPanel extends JPanel {
     private final JTextField textField;
     private final JTextArea textArea;
     private static String oldKey = null;
-    private static int index = -1;
+    private static int index;
+    private MainPanel mainPanel;
     
-    public EditPanel(Map<String, Collection<Definition>> m) {
+    public EditPanel(Map<String, Collection<Definition>> m, MainPanel mp) {
         super(new BorderLayout()); // set layout
         map = m;
+        mainPanel = mp;
         JPanel southPanel = new JPanel(); // footer
         southPanel.add(new JLabel("Panel edytowania."));
         add (southPanel, BorderLayout.SOUTH);
@@ -106,9 +109,14 @@ public class EditPanel extends JPanel {
             
         } else { // add to old key collection
             items.set(index, new Definition(newPhrase.toLowerCase(), newText));
-        }       
-       
+        }
+        try {
+            Dictionary.updateFile();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
         textField.setText(""); textArea.setText("");
+        mainPanel.clearFields();
         Dictionary.swapPanel("mainPanel");
     }
     

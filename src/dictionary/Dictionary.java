@@ -27,17 +27,17 @@ import javax.swing.SwingUtilities;
 public class Dictionary extends JFrame {
     public static final String FILE_NAME = "src/data.csv", SEPARATOR = ";";    
     private static JFrame mainFrame;
-    private final Map<String, Collection<Definition>> definitionMap; // phrase, definition
+    private static final Map<String, Collection<Definition>> definitionMap = new HashMap<>(); //phrase, definition
     private static final Map<String, JPanel> PANEL_MAP = new HashMap<>();
     private final JPanel mainPanel, editPanel;
     
     public Dictionary() {
         super("Słownik"); // set title
         setLayout(new CardLayout());
-        definitionMap = new HashMap<>();
+        //definitionMap = new HashMap<>();
         mainPanel = new MainPanel(definitionMap);
         add (mainPanel);
-        editPanel = new EditPanel(definitionMap);
+        editPanel = new EditPanel(definitionMap, (MainPanel) mainPanel);
         add (editPanel);
         
         PANEL_MAP.put("mainPanel", mainPanel);
@@ -92,6 +92,21 @@ public class Dictionary extends JFrame {
             }
             fw.append("Test 1;qwertyuy\n");
             System.out.println("Sample \".csv\" file has beed initialized.");
+        } finally {
+            if (fw != null)
+                fw.close();
+        }
+    }
+    
+    static void updateFile() throws IOException {
+        FileWriter fw = null;
+        try {
+            fw = new FileWriter(new File(FILE_NAME));
+            for (Collection<Definition> coll : definitionMap.values())
+                for (Definition d : coll) {
+                    fw.append(d.toString());
+                    fw.append("\n");
+                }
         } finally {
             if (fw != null)
                 fw.close();
