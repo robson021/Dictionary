@@ -34,7 +34,7 @@ public class EditPanel extends JPanel {
     private final JTextArea textArea;
     private static String oldKey = null;
     private static int index;
-    private MainPanel mainPanel;
+    private final MainPanel mainPanel;
     
     public EditPanel(Map<String, Collection<Definition>> m, MainPanel mp) {
         super(new BorderLayout()); // set layout
@@ -120,7 +120,7 @@ public class EditPanel extends JPanel {
         Dictionary.swapPanel("mainPanel");
     }
     
-    static void setOldKey (String p, int i) {
-        oldKey = p; index = i;
+    static void setOldKey (String k, int i) {
+        oldKey = k; index = i;
     }
 }

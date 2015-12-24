@@ -29,7 +29,7 @@ public class Dictionary extends JFrame {
     private static JFrame mainFrame;
     private static final Map<String, Collection<Definition>> definitionMap = new HashMap<>(); //phrase, definition
     private static final Map<String, JPanel> PANEL_MAP = new HashMap<>();
-    private final JPanel mainPanel, editPanel;
+    private final JPanel mainPanel, editPanel, newRecordPanel;
     
     public Dictionary() {
         super("Słownik"); // set title
@@ -40,8 +40,13 @@ public class Dictionary extends JFrame {
         editPanel = new EditPanel(definitionMap, (MainPanel) mainPanel);
         add (editPanel);
         
+        newRecordPanel = new NewRecordPanel(definitionMap);
+        add (newRecordPanel);
+                
         PANEL_MAP.put("mainPanel", mainPanel);
-        PANEL_MAP.put("editPanel", editPanel);        
+        PANEL_MAP.put("editPanel", editPanel);      
+        PANEL_MAP.put("newRecordPanel", newRecordPanel);
+        
         try {
             File f = new File(FILE_NAME);
             if (!f.exists() || f.isDirectory())
@@ -119,8 +124,7 @@ public class Dictionary extends JFrame {
     private void printMap() {
         for (Collection<Definition> coll : definitionMap.values()) 
             for (Definition d : coll)
-                System.out.println(d.toString() + "\n");
-        
+                System.out.println(d.toString() + "\n");        
     }
     public static void swapPanel (final String PANEL_NAME) {
         for (JPanel p : PANEL_MAP.values())

@@ -1,16 +1,29 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dictionary;
 
-import javax.swing.JPanel;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  *
  * @author robert
  */
-public class NewRecordPanel extends JPanel {
+public class NewRecordPanel extends AbstractPanel {
+
+    public NewRecordPanel(Map<String, Collection<Definition>> m) {
+        super(m, "Panel dodawania.");
+    }
+   
+
+    @Override
+    protected void confirmButtonAction() {
+                    //TODO
+        try {
+            Dictionary.updateFile();
+            Dictionary.swapPanel("mainPanel");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
     
 }

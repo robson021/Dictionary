@@ -71,6 +71,9 @@ public class MainPanel extends JPanel {
         
         JPanel innerButtonPanel = new JPanel(new FlowLayout());
         addButton = new JButton("Dodaj nowy rekord");
+        addButton.addActionListener((ActionEvent e) -> {
+            Dictionary.swapPanel("newRecordPanel");
+        });
         editButton = new JButton("Edytuj/Usuń");   
         editButton.addActionListener(new EditButtonHandler());
         innerButtonPanel.add(addButton);
