@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package dictionary;
 
 import java.awt.CardLayout;
@@ -40,7 +36,7 @@ public class Dictionary extends JFrame {
         editPanel = new EditPanel(definitionMap, (MainPanel) mainPanel);
         add (editPanel);
         
-        newRecordPanel = new NewRecordPanel(definitionMap);
+        newRecordPanel = new NewRecordPanel(definitionMap, (MainPanel) mainPanel);
         add (newRecordPanel);
                 
         PANEL_MAP.put("mainPanel", mainPanel);
@@ -78,14 +74,13 @@ public class Dictionary extends JFrame {
                     }
                 }
             }
-            System.out.println("Loaded definitions from \"" + FILE_NAME + "\" file");
+            System.out.println("\tLoaded definitions from \"" + FILE_NAME + "\" file\n\n");
             printMap();
         } finally {
             if (fr != null)
                 fr.close();
         }
-    }
-    
+    }    
     private void initTestCSVfile() throws IOException {
         FileWriter fw = null;         
         try {
@@ -103,6 +98,12 @@ public class Dictionary extends JFrame {
         }
     }
     
+    /**
+     * Method is activated when new record is added or editing occours.
+     * The file is replaced with new one, that contains up to date records.
+     * 
+     * @throws IOException
+     */
     static void updateFile() throws IOException {
         FileWriter fw = null;
         try {
@@ -126,6 +127,11 @@ public class Dictionary extends JFrame {
             for (Definition d : coll)
                 System.out.println(d.toString() + "\n");        
     }
+
+    /**
+     * Hides current visible panel and shows other.
+     * @param PANEL_NAME the name of the panel that will be visible.
+     */
     public static void swapPanel (final String PANEL_NAME) {
         for (JPanel p : PANEL_MAP.values())
             p.setVisible(false);

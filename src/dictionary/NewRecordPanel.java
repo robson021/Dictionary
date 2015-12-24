@@ -1,29 +1,64 @@
 package dictionary;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author robert
  */
 public class NewRecordPanel extends AbstractPanel {
+    private final MainPanel mainPanel;
 
-    public NewRecordPanel(Map<String, Collection<Definition>> m) {
+    public NewRecordPanel(Map<String, Collection<Definition>> m, MainPanel mp) {
         super(m, "Panel dodawania.");
+        mainPanel = mp;
     }
    
-
+    /**
+     * Adds new record to the Dictionary. Also updates the data file on HDD.
+     */
     @Override
     protected void confirmButtonAction() {
-                    //TODO
+        String t = textArea.getText();
+        String p = textField.getText().trim();
+        
+        if (t.isEmpty() || p.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Pola nie mogą być puste!");
+            return;
+        }
+        
+        Definition def = new Definition(p, t);
+        String key = p.toLowerCase();
+        
+        List<Definition> list = null;
+        list  = (List<Definition>) map.get(key);
+        
+        if (list == null || list.isEmpty()) { // new record
+            list = new ArrayList<>(2);
+            list.add(def);
+            map.put(key, list);
+        } else { // key exists, add new item to the list
+            list.add(def);
+        }
+        
         try {
             Dictionary.updateFile();
+            clearFields();
+            mainPanel.clearFields();
             Dictionary.swapPanel("mainPanel");
         } catch (IOException ex) {
             ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Błąd podczas zapisu do pliku.\nSpróbuj ponownie.");
         }
+    }
+
+    private void clearFields() {
+        textArea.setText(""); textField.setText("");
     }
     
 }
