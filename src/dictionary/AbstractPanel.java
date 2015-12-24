@@ -65,4 +65,11 @@ public abstract class AbstractPanel extends JPanel {
     }
 
     protected abstract void confirmButtonAction();
+    
+    /**
+     * Clears the text fields. Setting current text to "".
+     */
+    protected final void clearFields() {
+        textArea.setText(""); textField.setText("");
+    }
 }

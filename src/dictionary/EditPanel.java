@@ -28,7 +28,7 @@ public class EditPanel extends AbstractPanel {
     @Override
     protected void confirmButtonAction() {
         String newPhrase = textField.getText().trim();
-        String newText = textArea.getText();        
+        String newText = textArea.getText().trim();        
         if (newPhrase.isEmpty() || newText.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Uzupełnij wszystkie pola!");
             return;
@@ -65,7 +65,7 @@ public class EditPanel extends AbstractPanel {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        textField.setText(""); textArea.setText("");
+        clearFields();
         mainPanel.clearFields();
         Dictionary.swapPanel("mainPanel");
     }

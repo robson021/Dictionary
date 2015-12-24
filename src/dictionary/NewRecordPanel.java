@@ -24,7 +24,7 @@ public class NewRecordPanel extends AbstractPanel {
      */
     @Override
     protected void confirmButtonAction() {
-        String t = textArea.getText();
+        String t = textArea.getText().trim();
         String p = textField.getText().trim();
         
         if (t.isEmpty() || p.isEmpty()) {
@@ -32,8 +32,14 @@ public class NewRecordPanel extends AbstractPanel {
             return;
         }
         
+        if (t.contains(Dictionary.SEPARATOR)) {
+            JOptionPane.showMessageDialog(this,
+                    "Znak ';' jest niedozwolony. Wszystkie zostały zastąpione przez '|'");
+            t = t.replace(Dictionary.SEPARATOR, " |");
+        }
+        
         Definition def = new Definition(p, t);
-        String key = p.toLowerCase();
+        String key = p.toLowerCase();                
         
         List<Definition> list = null;
         list  = (List<Definition>) map.get(key);
@@ -56,9 +62,4 @@ public class NewRecordPanel extends AbstractPanel {
             JOptionPane.showMessageDialog(this, "Błąd podczas zapisu do pliku.\nSpróbuj ponownie.");
         }
     }
-
-    private void clearFields() {
-        textArea.setText(""); textField.setText("");
-    }
-    
 }
